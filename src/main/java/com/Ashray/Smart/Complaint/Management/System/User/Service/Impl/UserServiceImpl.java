@@ -1,9 +1,12 @@
 package com.Ashray.Smart.Complaint.Management.System.User.Service.Impl;
 
+import com.Ashray.Smart.Complaint.Management.System.User.Dto.Request.LoginRequest;
 import com.Ashray.Smart.Complaint.Management.System.User.Dto.Request.RegisterUserRequest;
+import com.Ashray.Smart.Complaint.Management.System.User.Dto.Response.LoginResponce;
 import com.Ashray.Smart.Complaint.Management.System.User.Dto.Response.RegisterUserResponce;
 import com.Ashray.Smart.Complaint.Management.System.User.Entity.User;
 import com.Ashray.Smart.Complaint.Management.System.User.Exception.EmailAlredyExitsException;
+import com.Ashray.Smart.Complaint.Management.System.User.Exception.InvalidCredentialsException;
 import com.Ashray.Smart.Complaint.Management.System.User.Exception.PhoneNumberAlreadyExitsException;
 import com.Ashray.Smart.Complaint.Management.System.User.Repository.UserRepository;
 import com.Ashray.Smart.Complaint.Management.System.User.Service.UserService;
@@ -46,6 +49,25 @@ public class UserServiceImpl implements UserService {
         responce.setEmail(user.getEmail());
         responce.setPhoneNumber(user.getPhoneNumber());
 
+
+        return responce;
+
+
+    }
+
+    @Override
+    public LoginResponce loginUser(LoginRequest loginRequest) {
+
+        User user=userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() ->  new InvalidCredentialsException("Invalid email or password"));
+
+        if(!passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())){
+            throw new InvalidCredentialsException("Invalid email or password");
+        }
+
+       // String token = jwtService.generateToken(user.getEmail());
+        LoginResponce responce = new LoginResponce();
+       // responce.setToken(token);
 
         return responce;
 

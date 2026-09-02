@@ -1,6 +1,7 @@
 package com.Ashray.Smart.Complaint.Management.System.Exception;
 
 import com.Ashray.Smart.Complaint.Management.System.User.Exception.EmailAlredyExitsException;
+import com.Ashray.Smart.Complaint.Management.System.User.Exception.InvalidCredentialsException;
 import com.Ashray.Smart.Complaint.Management.System.User.Exception.PhoneNumberAlreadyExitsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,5 +63,17 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponce> invalidCredentialException(InvalidCredentialsException ex) {
+
+        ErrorResponce error = new ErrorResponce(
+                LocalDateTime.now(),
+                HttpStatus.UNAUTHORIZED.value(),
+                ex.getMessage()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 }

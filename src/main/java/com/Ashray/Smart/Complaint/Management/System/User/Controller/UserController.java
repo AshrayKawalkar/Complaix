@@ -1,6 +1,8 @@
 package com.Ashray.Smart.Complaint.Management.System.User.Controller;
 
+import com.Ashray.Smart.Complaint.Management.System.User.Dto.Request.LoginRequest;
 import com.Ashray.Smart.Complaint.Management.System.User.Dto.Request.RegisterUserRequest;
+import com.Ashray.Smart.Complaint.Management.System.User.Dto.Response.LoginResponce;
 import com.Ashray.Smart.Complaint.Management.System.User.Dto.Response.RegisterUserResponce;
 import com.Ashray.Smart.Complaint.Management.System.User.Service.UserService;
 import jakarta.validation.Valid;
@@ -31,4 +33,18 @@ public class UserController {
 
         return new ResponseEntity<>(register , HttpStatus.CREATED);
     }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponce> loginUserRequest (
+                                                @Valid
+                                                @RequestBody LoginRequest request
+                                                          ) {
+
+        LoginResponce login = userService.loginUser(request);
+
+        return new ResponseEntity<>(login , HttpStatus.OK);
+    }
+
+
 }
