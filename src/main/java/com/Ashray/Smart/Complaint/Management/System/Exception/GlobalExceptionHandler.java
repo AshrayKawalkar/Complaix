@@ -1,5 +1,6 @@
 package com.Ashray.Smart.Complaint.Management.System.Exception;
 
+import com.Ashray.Smart.Complaint.Management.System.Department.Exception.DepartmentNotFoundException;
 import com.Ashray.Smart.Complaint.Management.System.User.Exception.EmailAlredyExitsException;
 import com.Ashray.Smart.Complaint.Management.System.User.Exception.InvalidCredentialsException;
 import com.Ashray.Smart.Complaint.Management.System.User.Exception.PhoneNumberAlreadyExitsException;
@@ -75,5 +76,16 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public ResponseEntity<ErrorResponce> handleDepartmentNotFoundException(DepartmentNotFoundException ex) {
+        ErrorResponce error = new ErrorResponce(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }
