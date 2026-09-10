@@ -9,7 +9,10 @@ import com.Ashray.Smart.Complaint.Management.System.Department.Mapper.Department
 import com.Ashray.Smart.Complaint.Management.System.Department.Repository.DepartmentRepository;
 import com.Ashray.Smart.Complaint.Management.System.Department.Service.DepartmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -59,12 +62,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentResponse> getAllDepartments() {
-        List<Department> all = repository.findAll();
-        return all.stream()
-                .map(mapper ::toResponse)
-                .toList();
+    @Transactional (readOnly = true)
+    public Page<DepartmentResponse> allDepartments(Pageable pageable) {
+
+        Page<Department> departmentPage=repository.findAll(pageable );
+        return departmentPage.map(mapper :: toResponse);
     }
+
 
     @Override
     public void deleteDepartment(Long departmentId) {

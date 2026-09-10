@@ -4,9 +4,12 @@ import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Request.Creat
 import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Request.UpdateDepartmentRequest;
 import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Response.DepartmentResponse;
 import com.Ashray.Smart.Complaint.Management.System.Department.Service.DepartmentService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,12 +50,12 @@ public class DepartmentController {
     }
 
 
-    @GetMapping("/all")
-    public ResponseEntity<List<DepartmentResponse>> getAllDepartments() {
+    @GetMapping
+    public ResponseEntity<Page<DepartmentResponse>> allDepartments(Pageable pageable) {
 
-        List<DepartmentResponse> allDepartments = departmentService.getAllDepartments();
+        Page<DepartmentResponse> departments = departmentService.allDepartments(pageable);
 
-        return new ResponseEntity<>(allDepartments, HttpStatus.OK);
+        return new ResponseEntity<>(departments , HttpStatus.OK);
     }
 
     @DeleteMapping("/{departmentId}")
