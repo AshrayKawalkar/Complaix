@@ -1,6 +1,7 @@
 package com.Ashray.Smart.Complaint.Management.System.Department.Controller;
 
 import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Request.CreateDepartmentRequest;
+import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Request.UpdateDepartmentRequest;
 import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Response.DepartmentResponse;
 import com.Ashray.Smart.Complaint.Management.System.Department.Service.DepartmentService;
 import jakarta.validation.Valid;
@@ -10,33 +11,56 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/dept")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
 
 
-    @PostMapping("/departments")
-    public ResponseEntity<DepartmentResponse> createDepartment(
-                     @Valid
-                     @RequestBody CreateDepartmentRequest request) {
+    @PostMapping()
+    public ResponseEntity<DepartmentResponse> createDepartment(@Valid @RequestBody CreateDepartmentRequest request) {
 
         DepartmentResponse department = departmentService.createDepartment(request);
 
-        return new ResponseEntity<>(department , HttpStatus.CREATED);
+        return new ResponseEntity<>(department, HttpStatus.CREATED);
     }
 
-
-
-
-    @GetMapping("/departments/{departmentId}")
+    @GetMapping("/{departmentId}")
     public ResponseEntity<DepartmentResponse> getDepartmentById(@PathVariable Long departmentId) {
 
         DepartmentResponse department = departmentService.getDepartmentById(departmentId);
 
-        return new ResponseEntity<>(department , HttpStatus.OK);
+        return new ResponseEntity<>(department, HttpStatus.OK);
+    }
+
+    @PutMapping("/{departmentId}")
+    public ResponseEntity<DepartmentResponse> updateDepartment(@PathVariable Long departmentId, @Valid @RequestBody UpdateDepartmentRequest request) {
+
+
+        DepartmentResponse updateDepartment = departmentService.updateDepartment(departmentId, request);
+
+        return new ResponseEntity<DepartmentResponse>(updateDepartment, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<DepartmentResponse>> getAllDepartments() {
+
+        List<DepartmentResponse> allDepartments = departmentService.getAllDepartments();
+
+        return new ResponseEntity<>(allDepartments, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{departmentId}")
+    public ResponseEntity<Void> deleteDepartment(@PathVariable Long departmentId) {
+
+        departmentService.deleteDepartment(departmentId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

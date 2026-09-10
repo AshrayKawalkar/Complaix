@@ -1,13 +1,13 @@
 package com.Ashray.Smart.Complaint.Management.System.Department.Mapper;
 
 import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Request.CreateDepartmentRequest;
+import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Request.UpdateDepartmentRequest;
 import com.Ashray.Smart.Complaint.Management.System.Department.Dto.Response.DepartmentResponse;
 import com.Ashray.Smart.Complaint.Management.System.Department.Entity.Department;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DepartmentMapper {
-
 
 
     public DepartmentResponse toResponse(Department department) {
@@ -25,7 +25,7 @@ public class DepartmentMapper {
 
     public Department toEntity(CreateDepartmentRequest createDepartmentRequest) {
 
-        if(createDepartmentRequest == null) {
+        if (createDepartmentRequest == null) {
             return null;
         }
 
@@ -34,6 +34,16 @@ public class DepartmentMapper {
         department.setDescription(createDepartmentRequest.getDescription());
 
         return department;
+    }
+
+
+    public void updateEntity(Department department, UpdateDepartmentRequest request) {
+
+        if (department == null || request == null) {
+            return;
+        }
+        department.setName(request.getName());
+        department.setDescription(request.getDescription());
     }
 
 }
