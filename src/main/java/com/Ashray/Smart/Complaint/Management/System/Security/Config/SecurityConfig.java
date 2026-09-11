@@ -5,6 +5,7 @@ import com.Ashray.Smart.Complaint.Management.System.Security.Jwt.JwtAuthenticati
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -34,8 +35,11 @@ public class SecurityConfig {
                 .csrf(csrf ->csrf.disable())
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/users/register",
-                                        "/users/login",
-                                        "/api/dept/**").permitAll()
+                                        "/users/login").permitAll()
+
+                                .requestMatchers(HttpMethod.POST, "/api/dept/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/dept/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/dept/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
 
