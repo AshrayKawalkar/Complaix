@@ -16,7 +16,7 @@ public interface DepartmentService {
 
     DepartmentResponse updateDepartment(Long departmentId, UpdateDepartmentRequest request);
 
-     Page<DepartmentResponse> allDepartments (Pageable pageable);
+     Page<DepartmentResponse> allDepartments (Boolean enabled, String search, Pageable pageable);
 
     void deleteDepartment(Long departmentId);
 

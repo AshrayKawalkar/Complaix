@@ -51,9 +51,11 @@ public class DepartmentController {
 
 
     @GetMapping
-    public ResponseEntity<Page<DepartmentResponse>> allDepartments(Pageable pageable) {
+    public ResponseEntity<Page<DepartmentResponse>> allDepartments(
+                     @RequestParam(required = false ) Boolean enabled,
+                     @RequestParam(required = false) String search , Pageable pageable) {
 
-        Page<DepartmentResponse> departments = departmentService.allDepartments(pageable);
+        Page<DepartmentResponse> departments = departmentService.allDepartments(enabled, search, pageable);
 
         return new ResponseEntity<>(departments , HttpStatus.OK);
     }

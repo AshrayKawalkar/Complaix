@@ -8,14 +8,15 @@ import com.Ashray.Smart.Complaint.Management.System.Department.Exception.Departm
 import com.Ashray.Smart.Complaint.Management.System.Department.Mapper.DepartmentMapper;
 import com.Ashray.Smart.Complaint.Management.System.Department.Repository.DepartmentRepository;
 import com.Ashray.Smart.Complaint.Management.System.Department.Service.DepartmentService;
+import com.Ashray.Smart.Complaint.Management.System.Department.Spefcification.DepartmentSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -62,10 +63,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    @Transactional (readOnly = true)
-    public Page<DepartmentResponse> allDepartments(Pageable pageable) {
+    @Transactional(readOnly = true)
+    public Page<DepartmentResponse> allDepartments(Boolean enabled, String search, Pageable pageable) {
 
-        Page<Department> departmentPage=repository.findAll(pageable );
+        Specification<Department> spec = Specification
+                .where(DepartmentSpecification.hasEnabled(enabled))
+                .and(DepartmentSpecification.hasName(search));
+
+        Page<Department> departmentPage = repository.findAll(spec, pageable);
         return departmentPage.map(mapper :: toResponse);
     }
 
