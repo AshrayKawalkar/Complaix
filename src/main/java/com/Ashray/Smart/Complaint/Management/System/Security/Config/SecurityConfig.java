@@ -36,10 +36,22 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/users/register",
                                         "/users/login").permitAll()
+                                .requestMatchers("/error").permitAll()
 
+
+
+                                // Department endpoints
                                 .requestMatchers(HttpMethod.POST, "/api/dept/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/api/dept/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/dept/**").hasRole("ADMIN")
+
+                                //Complaints endpoints
+                                .requestMatchers(HttpMethod.POST,   "/api/complaints/**").authenticated()
+                                .requestMatchers(HttpMethod.GET,    "/api/complaints/**").authenticated()
+                                .requestMatchers(HttpMethod.PUT,    "/api/complaints/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "/api/complaints/**").hasRole("ADMIN")
+
+
                                 .anyRequest().authenticated()
                 )
 

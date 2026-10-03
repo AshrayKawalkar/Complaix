@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateComplaintRequest {
-    @NotBlank(message = "Complaint title is required")
+
     @Size(max=100, message = "Complaint title must not exceed 100 characters")
     private String title;
 
-    @NotBlank(message = "Complaint description is required")
+
     @Size(max=500, message = "Complaint description must not exceed 500 characters")
     private String description;
 
@@ -23,5 +23,5 @@ public class UpdateComplaintRequest {
 
     private Long departmentId;
 
-    private Long userId;
+    private Long categoryId;
 }

@@ -2,6 +2,7 @@ package com.Ashray.Smart.Complaint.Management.System.Complaint.Dto.Request;
 
 import com.Ashray.Smart.Complaint.Management.System.Complaint.Enums.ComplaintPriority;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class CreateComplaintRequest {
     @Size(max = 500, message = "Complaint description must not exceed 500 characters")
     private String description;
 
-    @NotBlank(message = "Department ID is required")
+    @NotNull(message = "Department ID is required")
     private Long departmentId;
 
 
